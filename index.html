@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abiral Pokhrel — Data Engineer</title>
+<meta name="description" content="Abiral Pokhrel — Data Engineer based in Butwal, Nepal. Data pipelines, AI tooling, and open-source projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff; --ink:#111111; --grey:#555555; --faint:#999999; --rule:#111111; --wash:#f4f4f4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);
+    font-family:'Kalam','Segoe Print','Chalkboard SE','Comic Sans MS',cursive;
+    line-height:1.7;-webkit-font-smoothing:antialiased}
+  .masthead h1,.headline,h2.sec-title,.story h3,.notice h3,.figure .num{
+    font-family:'Caveat','Segoe Print','Bradley Hand','Chalkboard SE',cursive;}
+  a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  a:hover{background:var(--ink);color:var(--paper);text-decoration:none}
+  ::selection{background:var(--ink);color:var(--paper)}
+  .wrap{max-width:980px;margin:0;padding:0 24px}
+  .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  /* ---------- top dateline ---------- */
+  .dateline{border-bottom:1px solid var(--rule);padding:10px 0}
+  .dateline .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey)}
+  /* ---------- masthead ---------- */
+  .masthead{text-align:left;padding:44px 0 8px;border-bottom:4px double var(--rule)}
+  .masthead h1{font-size:clamp(2.6rem,8vw,4.6rem);font-weight:900;letter-spacing:-1px;line-height:1;margin-bottom:10px}
+  .masthead .tagline{font-style:italic;color:var(--grey);font-size:1.02rem}
+  nav.mastnav{display:flex;justify-content:flex-start;gap:28px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--rule);
+    font-size:.8rem;letter-spacing:2px;text-transform:uppercase}
+  nav.mastnav a{text-decoration:none;color:var(--ink)}
+  nav.mastnav a:hover{background:var(--ink);color:var(--paper)}
+  /* ---------- front page ---------- */
+  .front{padding:56px 0 64px;text-align:left;border-bottom:1px solid var(--rule)}
+  .kicker{display:inline-block;font-size:.75rem;letter-spacing:3px;text-transform:uppercase;
+    border:1px solid var(--rule);padding:8px 18px;margin-bottom:26px}
+  .headline{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:900;line-height:1.12;letter-spacing:-.5px;margin-bottom:14px}
+  .typer{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:1.05rem;color:var(--grey);min-height:2em;margin-bottom:22px}
+  .typer .cursor{display:inline-block;width:9px;height:1.15em;background:var(--ink);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .standfirst{font-size:1.12rem;color:var(--grey);max-width:620px;margin:0 0 34px;font-style:italic}
+  .standfirst strong{color:var(--ink);font-style:normal}
+  .btns{display:flex;gap:14px;justify-content:flex-start;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 30px;font-weight:700;font-size:.9rem;letter-spacing:1px;text-transform:uppercase;
+    border:2px solid var(--ink);text-decoration:none;transition:all .15s;font-family:-apple-system,"Segoe UI",Roboto,sans-serif}
+  .btn.solid{background:var(--ink);color:var(--paper)}
+  .btn.solid:hover{background:var(--paper);color:var(--ink)}
+  .btn.line{color:var(--ink)}
+  .btn.line:hover{background:var(--ink);color:var(--paper)}
+  /* ---------- ticker ---------- */
+  .ticker{border-bottom:1px solid var(--rule);background:var(--paper);overflow:hidden;padding:12px 0;white-space:nowrap}
+  .ticker-inner{display:inline-block;animation:scroll 30s linear infinite}
+  .ticker span{font-size:.82rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin:0 20px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  /* ---------- sections ---------- */
+  section{padding:64px 0;border-bottom:1px solid var(--rule)}
+  .sec-head{text-align:left;margin-bottom:12px}
+  .sec-head .section-kicker{font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+  h2.sec-title{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:900;letter-spacing:-.5px}
+  .rule-diamond{text-align:left;margin:18px 0 34px;color:var(--ink);letter-spacing:8px;font-size:.8rem}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.visible{opacity:1;transform:none}
+  /* ---------- figures / stats ---------- */
+  .figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));border:1px solid var(--rule);margin-bottom:44px}
+  .figure{padding:26px 16px;text-align:left;border-right:1px solid var(--rule)}
+  .figure:last-child{border-right:none}
+  .figure .num{font-size:2.4rem;font-weight:900}
+  .figure .lbl{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-top:6px}
+  @media(max-width:640px){.figure{border-right:none;border-bottom:1px solid var(--rule)}.figure:last-child{border-bottom:none}}
+  /* ---------- editor's note (terminal restyled) ---------- */
+  .dispatch{border:2px solid var(--rule);padding:0;margin-bottom:8px}
+  .dispatch-head{border-bottom:2px solid var(--rule);padding:10px 18px;font-size:.75rem;letter-spacing:3px;text-transform:uppercase;display:flex;justify-content:space-between}
+  .dispatch-body{padding:24px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92rem;line-height:2}
+  .dispatch-body .q{color:var(--grey)}
+  /* ---------- stories / projects ---------- */
+  .stories{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--rule)}
+  @media(max-width:700px){.stories{grid-template-columns:1fr}}
+  .story{padding:32px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;flex-direction:column}
+  .story:nth-child(2n){border-right:none}
+  .story:nth-last-child(-n+2){border-bottom:none}
+  @media(max-width:700px){.story{border-right:none}.story:nth-last-child(2){border-bottom:1px solid var(--rule)}}
+  .story .story-no{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+  .story h3{font-size:1.35rem;font-weight:900;margin-bottom:10px;line-height:1.25}
+  .story h3 a{text-decoration:none}
+  .story h3 a:hover{background:var(--ink);color:var(--paper)}
+  .story p{color:var(--grey);font-size:.96rem;flex:1;margin-bottom:18px}
+  .story .subjects{font-size:.74rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);border-top:1px solid var(--rule);padding-top:12px}
+  .story .stars{float:right;letter-spacing:0}
+  /* ---------- index / skills ---------- */
+  .index{columns:2;column-gap:48px;column-rule:1px solid var(--rule)}
+  @media(max-width:600px){.index{columns:1}}
+  .index div{break-inside:avoid;padding:10px 0;border-bottom:1px dotted var(--faint);display:flex;justify-content:space-between;font-size:.98rem}
+  .index div span:last-child{color:var(--faint);font-size:.85rem}
+  /* ---------- education notice ---------- */
+  .notice{border:2px solid var(--rule);padding:36px;max-width:720px;margin:0;text-align:left}
+  .notice h3{font-size:1.4rem;font-weight:900;margin-bottom:8px}
+  .notice .where{font-style:italic;color:var(--grey);margin-bottom:14px}
+  .notice p{color:var(--grey);font-size:.95rem}
+  .notice .grade{display:inline-block;margin-top:18px;border:2px solid var(--ink);padding:8px 22px;font-weight:700;letter-spacing:1px;font-size:.85rem;text-transform:uppercase}
+  /* ---------- letters / contact ---------- */
+  .letters{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border:1px solid var(--rule)}
+  .letter{padding:30px 22px;text-align:left;border-right:1px solid var(--rule)}
+  .letter:last-child{border-right:none}
+  @media(max-width:640px){.letter{border-right:none;border-bottom:1px solid var(--rule)}.letter:last-child{border-bottom:none}}
+  .letter .label{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+  .letter a{font-weight:700;word-break:break-all;font-size:1rem}
+  footer{padding:36px 0;text-align:left;color:var(--grey);font-size:.82rem}
+  footer .colophon{font-style:italic;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="dateline sans"><div class="wrap">
+  <span>Thursday, October 1, 2026</span>
+  <span>Butwal, Nepal</span>
+</div></div>
+
+<div class="masthead">
+  <div class="wrap">
+    <h1>Abiral Pokhrel</h1>
+    <p class="tagline">Data Engineer — all the news that's fit to ship.</p>
+  </div>
+</div>
+<nav class="mastnav sans">
+  <a href="#about">Profile</a><a href="#projects">Stories</a><a href="#skills">Index</a><a href="#education">Education</a><a href="#contact">Letters</a>
+</nav>
+
+<div class="front">
+  <div class="wrap">
+    <h2 class="headline">Data pipelines, lakehouses &amp; AI tooling — built in the open.</h2>
+    <div class="typer">$ whoami → <span id="typed"></span><span class="cursor"></span></div>
+    <p class="standfirst">Abiral Pokhrel is a <strong>Data Engineer</strong> from Butwal, Nepal, who turns messy data into systems that work. This page documents the evidence.</p>
+    <div class="btns">
+      <a class="btn solid" href="#projects">Read the stories</a>
+      <a class="btn line" href="#contact">Write to the editor</a>
+    </div>
+  </div>
+</div>
+
+<div class="ticker sans"><div class="ticker-inner" id="ticker"></div></div>
+
+<section id="about">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <div class="section-kicker sans">Section A</div>
+      <h2 class="sec-title">The Profile</h2>
+    </div>
+    <div class="rule-diamond">◆ ◆ ◆</div>
+    <div class="figures sans">
+      <div class="figure"><div class="num" data-count="9">0</div><div class="lbl">Public Repos</div></div>
+      <div class="figure"><div class="num" data-count="9">0</div><div class="lbl">GitHub Stars</div></div>
+      <div class="figure"><div class="num" data-count="4">0</div><div class="lbl">Featured Stories</div></div>
+      <div class="figure"><div class="num" data-count="2028">0</div><div class="lbl">Graduating</div></div>
+    </div>
+    <div class="dispatch">
+      <div class="dispatch-head sans"><span>From the editor's desk</span><span>Filed from Butwal</span></div>
+      <div class="dispatch-body">
+        <div><span class="q">$</span> cat philosophy.txt</div>
+        <div>"Intelligence is in the system, not just the model."</div>
+        <div><span class="q">$</span> ls interests/</div>
+        <div>data-engineering/ &nbsp;cloud-devops/ &nbsp;ai-agents/ &nbsp;football-parlays/ <span class="q">← off the record</span></div>
+        <div><span class="q">$</span> ./status --now</div>
+        <div>studying → shipping → repeating. currently: hunting internships.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <div class="section-kicker sans">Section B</div>
+      <h2 class="sec-title">Featured Stories</h2>
+    </div>
+    <div class="rule-diamond">◆ ◆ ◆</div>
+    <div class="stories">
+      <article class="story">
+        <div class="story-no sans">Story No. 1</div>
+        <h3><a href="https://github.com/abiralpokhrel-learns/ghtrends">ghtrends: every GitHub event, trending</a></h3>
+        <p>A serverless data platform on AWS that ingests every public GitHub event, models trends with dbt-core on a Glue + Athena lakehouse, and adds semantic search over trending repositories with sentence-transformers and a numpy vector index. <span class="stars">★ 3</span></p>
+        <div class="subjects sans">Subjects: AWS · dbt · Athena · PowerShell</div>
+      </article>
+      <article class="story">
+        <div class="story-no sans">Story No. 2</div>
+        <h3><a href="https://github.com/abiralpokhrel-learns/ecommerce-data-platform">An e-commerce pipeline, end to end</a></h3>
+        <p>End-to-end data engineering pipeline using the modern data stack — ingestion, transformation, and modeling for e-commerce analytics. <span class="stars">★ 3</span></p>
+        <div class="subjects sans">Subjects: Python · Modern Data Stack</div>
+      </article>
+      <article class="story">
+        <div class="story-no sans">Story No. 3</div>
+        <h3><a href="https://github.com/abiralpokhrel-learns/bucker-agent">The free machine that codes</a></h3>
+        <p>A free agentic AI coding system that squeezes the best out of free models. Planner → contracts → verifiers → replay architecture with event-sourced history, sandboxing, a desktop app, and MCP + REST APIs. <span class="stars">★ 2</span></p>
+        <div class="subjects sans">Subjects: Python · AI Agents · MCP</div>
+      </article>
+      <article class="story">
+        <div class="story-no sans">Story No. 4</div>
+        <h3><a href="https://github.com/abiralpokhrel-learns/ledger-sentinel">Every rupee accounted for</a></h3>
+        <p>Deterministic first, AI last. Defense-only finance controller built for the Razorpay AI Buildathon 2026 (AI Finance Controller + AI Defense tracks).</p>
+        <div class="subjects sans">Subjects: Python · FinTech · CI</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <div class="section-kicker sans">Section C</div>
+      <h2 class="sec-title">The Index</h2>
+    </div>
+    <div class="rule-diamond">◆ ◆ ◆</div>
+    <div class="index">
+      <div><span><strong>Python</strong></span><span>daily driver</span></div>
+      <div><span><strong>SQL</strong></span><span>fluent</span></div>
+      <div><span>ETL / Data Pipelines</span><span>core craft</span></div>
+      <div><span>dbt</span><span>modeling</span></div>
+      <div><span>AWS (Glue, Athena, Lambda)</span><span>serverless</span></div>
+      <div><span>Docker</span><span>containerized</span></div>
+      <div><span>Git &amp; GitHub Actions</span><span>CI/CD</span></div>
+      <div><span>REST APIs</span><span>integrations</span></div>
+      <div><span>PowerShell</span><span>automation</span></div>
+      <div><span>JavaScript</span><span>frontend</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <div class="section-kicker sans">Section D</div>
+      <h2 class="sec-title">Education</h2>
+    </div>
+    <div class="rule-diamond">◆ ◆ ◆</div>
+    <div class="notice">
+      <h3>BSc (Hons) Computer Systems Engineering (IT)</h3>
+      <div class="where">University of Sunderland · via ISMT College, Butwal</div>
+      <p>Three-year degree, graduating June 2028. Focus areas: data engineering, cloud/DevOps, and AI systems.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="border-bottom:none">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <div class="section-kicker sans">Section E</div>
+      <h2 class="sec-title">Letters to the Editor</h2>
+    </div>
+    <div class="rule-diamond">◆ ◆ ◆</div>
+    <p style="text-align:left;color:var(--grey);font-style:italic;margin-bottom:30px">Open to internships, freelance data work, and interesting collaborations.</p>
+    <div class="letters sans">
+      <div class="letter"><div class="label">By Post (Email)</div><a href="mailto:abiralpokhrel31@gmail.com">abiralpokhrel31@gmail.com</a></div>
+      <div class="letter"><div class="label">The Archives (GitHub)</div><a href="https://github.com/abiralpokhrel-learns">abiralpokhrel-learns</a></div>
+      <div class="letter"><div class="label">The Society Pages (LinkedIn)</div><a href="https://www.linkedin.com/in/abiralpokhrel2005/">abiralpokhrel2005</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Abiral Pokhrel · Butwal, Nepal</div>
+    <div class="colophon">Set in Georgia. Printed on 100% recycled pixels. No frameworks were harmed.</div>
+  </div>
+</footer>
+
+<script>
+// ---------- typing effect ----------
+const roles = ["Data Engineer", "Pipeline Builder", "Lakehouse Enjoyer", "AI Agent Tinkerer", "Professional Bug Fixer"];
+const typedEl = document.getElementById('typed');
+let ri = 0, ci = 0, deleting = false;
+(function type(){
+  const word = roles[ri];
+  typedEl.textContent = word.slice(0, ci);
+  let delay = deleting ? 40 : 85;
+  if(!deleting && ci === word.length){ delay = 1600; deleting = true; }
+  else if(deleting && ci === 0){ deleting = false; ri = (ri+1) % roles.length; delay = 400; }
+  ci += deleting ? -1 : 1;
+  setTimeout(type, delay);
+})();
+
+// ---------- scroll reveal ----------
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+}), {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ---------- animated counters ----------
+const cio = new IntersectionObserver(es => es.forEach(e => {
+  if(!e.isIntersecting) return;
+  const el = e.target, target = +el.dataset.count; let cur = 0;
+  const step = Math.max(1, Math.ceil(target/40));
+  (function tick(){ cur = Math.min(target, cur+step); el.textContent = cur;
+    if(cur < target) setTimeout(tick, 40); })();
+  cio.unobserve(el);
+}), {threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+
+// ---------- ticker ----------
+const techs = ["Python","SQL","dbt","AWS","Docker","Git","Pandas","Spark","PostgreSQL","REST APIs","Linux","Airflow"];
+const half = techs.map(t=>`<span>◆ ${t}</span>`).join('');
+document.getElementById('ticker').innerHTML = half + half;
+</script>
+
+</body>
+</html>
