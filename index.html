@@ -440,8 +440,10 @@ addEventListener('scroll', ()=>{
 }, {passive:true});
 toTop.addEventListener('click', ()=>scrollTo({top:0,behavior:'smooth'}));
 
+</script>
+<script>
 // ---------- living dateline: edition follows the reader's clock ----------
-(function(){
+try{(function(){
   const hr = new Date().getHours();
   const ed = hr>=5&&hr<12 ? 'Morning Edition'
            : hr>=12&&hr<17 ? 'Afternoon Edition'
@@ -450,10 +452,10 @@ toTop.addEventListener('click', ()=>scrollTo({top:0,behavior:'smooth'}));
   document.getElementById('edition').textContent = ed;
   document.getElementById('dateline-date').textContent =
     new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-})();
+})();}catch(e){console.warn('dateline:',e);}
 
 // ---------- mascot: he roams, he climbs, he parkours ----------
-(function(){
+try{(function(){
   const M = document.getElementById('mascot');
   const B = document.getElementById('bubble');
   const W = 74, H = 104;
@@ -536,7 +538,7 @@ toTop.addEventListener('click', ()=>scrollTo({top:0,behavior:'smooth'}));
   place();
   requestAnimationFrame(frame);
   addEventListener('resize',()=>{ x=Math.min(x,innerWidth-W); y=Math.min(y,innerHeight-H); });
-})();
+})();}catch(e){console.warn('mascot:',e);}
 </script>
 <div id="mascot" aria-label="Site mascot, click for a trick"><img src="mascot.png" alt="Abiral's 3D mascot"></div>
 <div id="bubble" role="status"></div>
