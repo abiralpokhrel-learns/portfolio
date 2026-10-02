@@ -458,6 +458,8 @@ try{(function(){
 try{(function(){
   const M = document.getElementById('mascot');
   const B = document.getElementById('bubble');
+  if(!M || !B) throw new Error('missing elements M='+!!M+' B='+!!B);
+  try{ M.style.transform='translate(12px,12px)'; }catch(e){ throw new Error('transform write failed: '+e.message); }
   const W = 74, H = 104;
   const groundY = ()=> innerHeight - H - 24;
   let x = innerWidth*0.12, y = groundY();
@@ -538,7 +540,7 @@ try{(function(){
   place();
   requestAnimationFrame(frame);
   addEventListener('resize',()=>{ x=Math.min(x,innerWidth-W); y=Math.min(y,innerHeight-H); });
-})();}catch(e){console.warn('mascot:',e);}
+})();}catch(e){console.warn('mascot:',e);try{var b=document.getElementById('bubble');if(b){b.textContent='mascot error: '+e.message;b.classList.add('show');}}catch(_){}}
 </script>
 <div id="mascot" aria-label="Site mascot, click for a trick"><img src="mascot.png" alt="Abiral's 3D mascot"></div>
 <div id="bubble" role="status"></div>
