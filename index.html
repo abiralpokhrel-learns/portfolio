@@ -456,92 +456,76 @@ try{(function(){
     new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 })();}catch(e){console.warn('dateline:',e);}
 
-// ---------- mascot: he roams, he climbs, he parkours ----------
+// ---------- mascot: he hops from heading to heading as you scroll ----------
 try{(function(){
   const M = document.getElementById('mascot');
   const B = document.getElementById('bubble');
   if(!M || !B) throw new Error('missing elements M='+!!M+' B='+!!B);
-  try{ M.style.transform='translate(12px,12px)'; }catch(e){ throw new Error('transform write failed: '+e.message); }
   const W = 74, H = 104;
-  const groundY = ()=> innerHeight - H - 24;
-  let x = innerWidth*0.12, y = groundY();
-  let tx=x, ty=y, state='idle', idleT=1.4;
-  let hopT=-1, flipping=false, perchT=0, climbT=0, climbFrom=0, climbTo=0;
   const quips = ["hiii!","pipelines go brrr","etl go brrr","on the record!","have you seen my lakehouse?","beep boop.","messy data? never met her."];
-  const views = ["nice view up here.","i can see my pipeline from here!","parkour!","do not try this at home."];
-
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
-    M.style.transform = `translate(24px,${groundY()}px)`; return;
+  let heads = [];
+  function collect(){
+    heads = [...document.querySelectorAll('.masthead h1, h2.sec-title, .story h3')].filter(el=>el.getBoundingClientRect().width>40);
   }
-  function hopY(){ return hopT>=0 ? -Math.sin(Math.PI*hopT/0.55)*30 : 0; }
-  function place(){
-    M.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translateY(${hopY().toFixed(1)}px)`;
+  collect();
+  function posOf(el){
+    const r = el.getBoundingClientRect();
+    return [Math.min(Math.max(r.left+14,8), Math.max(innerWidth-W-8,8)), Math.min(Math.max(r.top-H+8,8), Math.max(innerHeight-H-8,8))];
+  }
+  function currentIdx(){
+    if(!heads.length) return -1;
+    const line = innerHeight*0.45;
+    let idx = 0;
+    for(let i=0;i<heads.length;i++){ if(heads[i].getBoundingClientRect().top <= line) idx = i; }
+    return idx;
+  }
+  let cur = currentIdx();
+  let x = 24, y = 24;
+  if(cur>=0){ const p0 = posOf(heads[cur]); x = p0[0]; y = p0[1]; }
+  let jumping = false, jT = 0, sx = x, sy = y, gIdx = cur, flipping = false;
+  const DUR = 0.62;
+  function place(arc){
+    M.style.transform = 'translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) translateY('+arc.toFixed(1)+'px)';
     if(B.classList.contains('show')){
       B.style.left = Math.min(Math.max(x-56,8), innerWidth-218)+'px';
       B.style.top = Math.max(y-64,8)+'px';
     }
   }
   function say(t){ B.textContent=t; B.classList.add('show'); clearTimeout(B._t); B._t=setTimeout(()=>B.classList.remove('show'),2300); }
-  function walkTo(nx,ny,s){ tx=nx; ty=ny; state=s; M.classList.add('walking'); }
-  function randGround(){ return [24+Math.random()*Math.max(innerWidth-W-48,1), innerHeight*0.45+Math.random()*Math.max(groundY()-innerHeight*0.45,1)]; }
-
+  M.classList.add('perched');
   M.addEventListener('click', ()=>{
-    if(flipping) return; flipping=true;
+    if(flipping) return; flipping = true;
     M.classList.add('flipping');
     say(quips[Math.floor(Math.random()*quips.length)]);
-    setTimeout(()=>{ M.classList.remove('flipping'); flipping=false; }, 720);
+    setTimeout(()=>{ M.classList.remove('flipping'); flipping = false; }, 720);
   });
-
-  function tryClimb(){
-    const els=[...document.querySelectorAll('h2.sec-title,.story h3,.masthead h1')];
-    const vis=els.filter(e=>{const r=e.getBoundingClientRect();return r.top>90&&r.bottom<innerHeight-60&&r.width>40;});
-    if(!vis.length) return false;
-    const r=vis[Math.floor(Math.random()*vis.length)].getBoundingClientRect();
-    M._climbTop=r.top-H+10;
-    tx=Math.min(Math.max(r.left+20,16),innerWidth-W-16); ty=r.bottom+14;
-    state='toBase'; M.classList.add('walking');
-    return true;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ place(0); return; }
+  function startJump(idx){
+    gIdx = idx; sx = x; sy = y; jT = 0; jumping = true;
+    M.classList.remove('perched');
   }
-
-  let last=performance.now();
+  let last = performance.now();
   function frame(t){
-    const dt=Math.min((t-last)/1000,.05); last=t;
-    if(hopT>=0){ hopT+=dt; if(hopT>=0.55) hopT=-1; }
-    else if(state==='walk'&&Math.random()<dt*0.5){ hopT=0; }
-
-    const dx=tx-x, dy=ty-y, d=Math.hypot(dx,dy);
-    if(state==='idle'){
-      idleT-=dt;
-      if(idleT<=0){
-        const r=Math.random();
-        if(r<0.30){ if(!tryClimb()){ const [gx,gy]=randGround(); walkTo(gx,gy,'walk'); } }
-        else { const [gx,gy]=randGround(); walkTo(gx,gy, r<0.40?'dash':'walk'); }
-      }
-    } else if(state==='climb'){
-      climbT+=dt; const p=Math.min(climbT/1.15,1), e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
-      y=climbFrom+(climbTo-climbFrom)*e;
-      if(p>=1){ M.classList.remove('climbing'); M.classList.add('perched');
-        state='perch'; perchT=2.4+Math.random()*1.6;
-        if(Math.random()<0.5) say(views[Math.floor(Math.random()*views.length)]); }
-    } else if(state==='perch'){
-      perchT-=dt;
-      if(perchT<=0){ M.classList.remove('perched'); const [gx]=randGround(); walkTo(gx,groundY(),'hopoff'); }
+    const dt = Math.min((t-last)/1000, .05); last = t;
+    if(jumping){
+      jT += dt;
+      const p = Math.min(jT/DUR, 1);
+      const tp = posOf(heads[gIdx]);
+      x = sx + (tp[0]-sx)*p;
+      y = sy + (tp[1]-sy)*p;
+      M.classList.toggle('face-left', tp[0] < sx);
+      place(-Math.sin(Math.PI*p)*110);
+      if(p>=1){ jumping = false; cur = gIdx; M.classList.add('perched'); }
     } else {
-      const sp = state==='dash'?340 : state==='hopoff'?200 : 90;
-      if(d<8){
-        M.classList.remove('walking');
-        if(state==='toBase'){ state='climb'; climbFrom=y; climbTo=M._climbTop; climbT=0; M.classList.add('climbing'); }
-        else { state='idle'; idleT=1+Math.random()*2.6; }
-      } else { x+=dx/d*sp*dt; y+=dy/d*sp*dt; M.classList.toggle('face-left',dx<0); }
+      const idx = currentIdx();
+      if(idx>=0 && idx!==cur){ startJump(idx); }
+      else if(cur>=0){ const tp = posOf(heads[cur]); x = tp[0]; y = tp[1]; place(0); }
     }
-    x=Math.min(Math.max(x,0),innerWidth-W);
-    y=Math.min(Math.max(y,0),innerHeight-H);
-    place();
     requestAnimationFrame(frame);
   }
-  place();
+  place(0);
   requestAnimationFrame(frame);
-  addEventListener('resize',()=>{ x=Math.min(x,innerWidth-W); y=Math.min(y,innerHeight-H); });
+  addEventListener('resize', collect);
 })();}catch(e){console.warn('mascot:',e);try{var d=document.createElement('div');d.id='mascot-err';d.style.cssText='position:fixed;left:8px;top:8px;z-index:9999;background:#fff;color:#000;border:3px solid #000;padding:10px 14px;font:700 13px monospace;max-width:92vw';d.textContent='MASCOT ERROR: '+e.message;document.body.appendChild(d);}catch(_){}}
 </script>
 <button id="toTop" aria-label="Back to top">↑</button>
