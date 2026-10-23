@@ -134,8 +134,12 @@
   @media(max-width:640px){.mastnav a{font-size:.72rem}nav.mastnav{gap:16px}}
   /* ---------- press-room effects ---------- */
   body{background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.014) 0 1px,transparent 1px 3px)}
-  .press{position:fixed;inset:0;background:var(--ink);z-index:200;display:flex;align-items:center;justify-content:center;animation:pressUp .7s cubic-bezier(.76,0,.24,1) 1s forwards}
-  .press span{color:var(--paper);font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:.85rem;letter-spacing:5px;text-transform:uppercase;animation:pressIn .4s ease .15s both;white-space:nowrap}
+  .press{position:fixed;inset:0;background:var(--ink);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:pressUp .7s cubic-bezier(.76,0,.24,1) 1.7s forwards}
+  .press-word{color:var(--paper);font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:clamp(2.1rem,8vw,3.4rem);line-height:1.15;text-align:center;padding:0 16px;animation:pressWordIn .3s ease both}
+  .press-word.swap{animation:pressSwap .15s ease both}
+  .press-sub{margin-top:16px;color:var(--faint);font-size:.68rem;letter-spacing:4px;text-transform:uppercase;text-align:center;animation:pressIn .4s ease .15s both}
+  @keyframes pressWordIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+  @keyframes pressSwap{from{opacity:.25;transform:scale(.965)}to{opacity:1;transform:scale(1)}}
   @keyframes pressIn{from{opacity:0;letter-spacing:12px}to{opacity:1;letter-spacing:5px}}
   @keyframes pressUp{to{transform:translateY(-101%);visibility:hidden}}
   .progress{position:fixed;top:0;left:0;height:3px;background:var(--ink);width:0;z-index:150}
@@ -233,7 +237,7 @@
     .archives-head{margin:36px 0 8px}
     .archive-row{font-size:.95rem;line-height:1.55;padding:16px 0}
     footer{padding:34px 0}
-    .press span{font-size:.72rem;letter-spacing:3px}
+    .press-sub{font-size:.62rem;letter-spacing:3px}
     #toTop{right:16px;bottom:16px;width:42px;height:42px}
   }
   /* ---------- the beauty pass: a better-set page ---------- */
@@ -264,7 +268,7 @@
 </style>
 </head>
 <body>
-<div class="press" aria-hidden="true"><span>Printing the morning edition</span></div>
+<div class="press" aria-hidden="true"><div class="press-word" id="pressWord">नमस्ते</div><div class="press-sub">Printing the morning edition</div></div>
 <div class="progress" aria-hidden="true"></div>
 
 <div class="dateline sans"><div class="wrap">
@@ -476,6 +480,10 @@
 <div id="bubble" role="status"></div>
 
 <script>
+// ---------- greeting flash: namaste, around the world and home again ----------
+const greetings = ['नमस्ते','Hello','Bonjour','Hola','こんにちは','Ciao','Olá','Hallo','مرحبا','Jambo','नमस्ते'];
+const pressWord = document.getElementById('pressWord');
+if (pressWord) { let gi = 0; const gTimer = setInterval(() => { gi++; if (gi >= greetings.length) { clearInterval(gTimer); return; } pressWord.textContent = greetings[gi]; pressWord.classList.remove('swap'); void pressWord.offsetWidth; pressWord.classList.add('swap'); }, 130); }
 // ---------- typing effect ----------
 const roles = ["Data Engineer", "ETL Wrangler", "Lakehouse Enjoyer", "AI Agent Tinkerer", "Professional Bug Fixer"];
 const typedEl = document.getElementById('typed');
