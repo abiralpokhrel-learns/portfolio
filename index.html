@@ -225,6 +225,32 @@
     .press span{font-size:.72rem;letter-spacing:3px}
     #toTop{right:16px;bottom:16px;width:42px;height:42px}
   }
+
+  /* ---------- the beauty pass: a better-set page ---------- */
+  body{font-variant-numeric:oldstyle-nums}
+  .figure .num{font-variant-numeric:lining-nums}
+  .headline,h2.sec-title,.story h3,.notice h3{text-wrap:balance}
+  .story p,.standfirst,.notice p,.t-text{text-wrap:pretty}
+  .dateline #edition{font-weight:700}
+  .story p::first-letter{background:var(--ink);color:var(--paper);padding:7px 10px 5px;margin:5px 10px 0 0;line-height:.78}
+  #mascot img{filter:drop-shadow(0 6px 5px rgba(0,0,0,.30))}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  html{scrollbar-width:thin;scrollbar-color:var(--ink) var(--paper)}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:var(--paper);border-left:1px solid var(--rule)}
+  ::-webkit-scrollbar-thumb{background:var(--ink)}
+  .endmark{margin-top:24px;font-weight:700;letter-spacing:8px;font-size:.85rem;color:var(--ink)}
+  @media(max-width:640px){
+    .story p::first-letter{padding:6px 8px 4px;margin:4px 8px 0 0}
+  }
+  @media print{
+    .press,.progress,nav.mastnav,.btns,.ticker,#mascot,#bubble,#toTop{display:none!important}
+    .reveal{opacity:1!important;transform:none!important}
+    body{font-size:11pt;line-height:1.5}
+    section{padding:18px 0}
+    a{text-decoration:none}
+    .story,.notice,.dispatch,.figure,.letter{break-inside:avoid}
+  }
 </style>
 </head>
 <body>
@@ -433,6 +459,7 @@
   <div class="wrap">
     <div>© 2026 Abiral Pokhrel · Butwal, Nepal</div>
     <div class="colophon">Set in Georgia. Printed on 100% recycled pixels. No frameworks were harmed.</div>
+    <div class="endmark">— 30 —</div>
   </div>
 </footer>
 <div id="mascot" aria-label="Site mascot, click for a trick"><img src="mascot.png" alt="Abiral's 3D mascot"></div>
