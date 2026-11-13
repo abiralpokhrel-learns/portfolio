@@ -1614,10 +1614,10 @@
           <p class="kicker">Query Engine &mdash; C++20</p>
           <h3>qe: A Columnar Query Engine, Built From Scratch</h3>
           <p class="deck">A SQL engine written from the ground up in C++20: Parquet in, answers out, with DuckDB standing over its shoulder checking every number.</p>
-          <div class="quick-stats"><span>175 tests vs DuckDB</span><span>1M-row benchmarks</span><span>Honest wins &amp; losses</span></div>
+          <div class="quick-stats"><span>194 tests vs DuckDB</span><span>1M-row benchmarks</span><span>Honest wins &amp; losses</span></div>
           <div class="body-copy">
             <p>Hand-written lexer and parser, a planner that pushes predicates down and prunes columns before they are ever read, and vectorized execution in 8,192-row batches.</p>
-            <p>Every answer is checked against DuckDB: 175 tests plus a differential fuzzer, 9 of them GPU-gated. On 1M rows it wins 3 and loses 5 &mdash; both shown, nothing faked. The CUDA build is opt-in and measured: global aggregates run on the RTX 3050 and come out roughly tied with the CPU, which the README says plainly.</p>
+            <p>Every answer is checked against DuckDB: 194 tests plus a differential fuzzer, 9 of them GPU-gated. On 1M rows it wins 3 and loses 5 &mdash; both shown, nothing faked. The CUDA build is opt-in and measured: global aggregates run on the RTX 3050 and come out roughly tied with the CPU, which the README says plainly.</p>
           </div>
           <figure class="flow-fig">
             <div class="plate-frame">
